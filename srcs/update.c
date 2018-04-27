@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 17:43:23 by schaaban          #+#    #+#             */
-/*   Updated: 2018/04/24 16:13:09 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/04/24 17:59:58 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,4 @@ void			ft_update(t_wolf *wolf)
 		wolf->player->angle = 0;
 	if (wolf->player->angle < 0)
 		wolf->player->angle = 359;
-	printf("Angle : %f\n", wolf->player->angle);
 }
