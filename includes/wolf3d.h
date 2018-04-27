@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 17:24:15 by schaaban          #+#    #+#             */
-/*   Updated: 2018/04/27 02:52:54 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/04/27 18:35:14 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <math.h>
 # include <fcntl.h>
 
-# define WALL_SIZE			50
+# define WALL_SIZE			64
 
 # define DELTA				wolf->delta
 
@@ -37,6 +37,7 @@ typedef struct		s_player
 	double			pos[2];
 	double			angle;
 	double			dist_pp;
+	double			speed;
 }					t_player;
 
 typedef struct		s_wolf
@@ -49,8 +50,6 @@ typedef struct		s_wolf
 	int				exit;
 	int				win_w;
 	int				win_h;
-	double			time_last;
-	double			time_current;
 	double			time_step;
 	double			delta;
 	double			frequency;
@@ -76,6 +75,8 @@ void			ft_draw_v_line(int x, int y1, int y2, int color, t_wolf *wolf);
 double			*get_closer_h(double x, double y, double a, t_wolf *wolf);
 double			*get_closer_v(double x, double y, double a, t_wolf *wolf);
 int				ft_raylen(double *r, double *p);
+
+double			*ray_cast(double angle, t_wolf *wolf);
 
 void			ft_draw(t_wolf *wolf);
 void			ft_update(t_wolf *wolf);

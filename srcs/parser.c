@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/27 00:14:37 by schaaban          #+#    #+#             */
-/*   Updated: 2018/04/27 03:01:14 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/04/27 14:58:44 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int		parser_size_check(char **lines, t_wolf *wolf)
 
 	i = -1;
 	last_width = 0;
+	wolf->map_w = 0;
 	while (lines[++i] != NULL)
 	{
 		if (last_width != wolf->map_w && i != 0)
@@ -36,9 +37,7 @@ static int		parser_size_check(char **lines, t_wolf *wolf)
 		last_width = wolf->map_w;
 	}
 	wolf->map_h = i;
-	if (wolf->map_w < 3 || wolf->map_h < 3)
-		return (0);
-	return (1);
+	return ((wolf->map_w < 3 || wolf->map_h < 3) ? 0 : 1);
 }
 
 static int		parser_fill_line(char *line, int map_i, t_wolf *wolf)

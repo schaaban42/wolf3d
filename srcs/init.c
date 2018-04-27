@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 16:53:07 by schaaban          #+#    #+#             */
-/*   Updated: 2018/04/27 03:05:55 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/04/27 18:35:33 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,45 +18,40 @@ static t_player	*init_player(t_wolf *wolf)
 
 	if (!(p = (t_player*)malloc(sizeof(t_player))))
 		error_handler(W_ERROR_MALLOC, wolf);
-	p->pos[0] = 150;
-	p->pos[1] = 150;
+	p->pos[0] = WALL_SIZE * 2 + WALL_SIZE / 2;
+	p->pos[1] = WALL_SIZE * 2 + WALL_SIZE / 2;
 	p->angle = 0;
-	p->dist_pp = (wolf->win_w / 2) / tan(wolf->fov * M_PI / 180);
+	p->speed = 400;
+	p->dist_pp = (wolf->win_w / 2) / tan(wolf->fov / 2 * M_PI / 180);
 	return (p);
 }
 
 void			game_loop(t_wolf *wolf)
 {
-	double		t_curr;
-	double		t_last;
-	double		t_acc;
+	double		t_start;
+	double		t_elapsed;
 
-	t_curr = SDL_GetTicks();
-	wolf->time_current = t_curr;
+	t_start = SDL_GetTicks();
 	while (wolf->exit != 1)
 	{
-		t_last = t_curr;
-		t_curr = SDL_GetTicks();
-		t_acc += (t_curr - t_last);
-		while (t_acc >= wolf->time_step)
-		{
-			wolf->time_last = wolf->time_current;
-			wolf->time_current = SDL_GetTicks();
-			wolf->delta = (wolf->time_current - wolf->time_last) / 1000;
-			process_inputs(wolf);
-			ft_update(wolf);
-			t_acc -= wolf->time_step;
-		}
+		wolf->delta = (SDL_GetTicks() - t_start) / 1000;
+		t_start = SDL_GetTicks();
+		process_inputs(wolf);
+		ft_update(wolf);
 		ft_draw(wolf);
 		SDL_RenderPresent(wolf->render);
+		t_elapsed = SDL_GetTicks() - t_start;
+        if(t_elapsed < wolf->time_step) {
+            SDL_Delay(wolf->time_step - t_elapsed);
+        }
 	}
 }
 
 void			init_values(t_wolf *wolf)
 {
 	wolf->exit = 0;
-	wolf->win_w = 550;
-	wolf->win_h = 550;
+	wolf->win_w = 640;
+	wolf->win_h = 400;
 	wolf->fov = 60;
 	wolf->frequency = 144.0;
 	wolf->time_step = 1000.0 / (double)wolf->frequency;

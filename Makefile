@@ -6,7 +6,7 @@
 #    By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/19 09:41:23 by schaaban          #+#    #+#              #
-#    Updated: 2018/04/27 01:39:13 by schaaban         ###   ########.fr        #
+#    Updated: 2018/04/27 14:02:26 by schaaban         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ SRCS		=		$(addprefix $(SRCS_DIR)/, 	\
 					update.c					\
 					ray.c						\
 					parser.c					\
-					init.c						)
+					init.c						\
+					ray_cast.c					)
 OBJS		=		$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 COLOR_RED	=	\033[1;31m
