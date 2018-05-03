@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 16:57:35 by schaaban          #+#    #+#             */
-/*   Updated: 2018/04/27 02:41:30 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/03 16:04:34 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_exit(t_wolf *wolf)
 {
 	if (wolf->render)
-		SDL_DestroyRenderer(wolf->render);
+		SDL_FreeSurface(wolf->render);
 	if (wolf->win)
 		SDL_DestroyWindow(wolf->win);
 	SDL_Quit();

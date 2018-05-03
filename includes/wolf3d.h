@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 17:24:15 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/03 04:56:51 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/03 17:10:10 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct		s_wolf
 {
 	SDL_Event		event;
 	SDL_Window		*win;
-	SDL_Renderer	*render;
+	SDL_Surface		*render;
 	Uint8			*keys;
 	int				fd;
 	int				exit;
@@ -77,6 +77,8 @@ void			parse_file(t_wolf *wolf);
 
 void			ft_put_pixel(int x, int y, int color, t_wolf *wolf);
 void			ft_draw_v_line(int x, int y1, int y2, int color, t_wolf *wolf);
+void			ft_clear_win(t_wolf *wolf);
+int				ft_get_color(int r, int g, int b);
 
 double			*get_closer_h(double x, double y, double a, t_wolf *wolf);
 double			*get_closer_v(double x, double y, double a, t_wolf *wolf);

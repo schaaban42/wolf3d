@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 16:53:07 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/03 04:57:03 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/03 16:24:51 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ void			game_loop(t_wolf *wolf)
 {
 	double		t_start;
 	double		t_elapsed;
+	SDL_Surface	*screen;
 
 	t_start = SDL_GetTicks();
+	screen = SDL_GetWindowSurface(wolf->win);
 	while (wolf->exit != 1)
 	{
 		wolf->delta = (SDL_GetTicks() - t_start) / 1000;
@@ -39,7 +41,8 @@ void			game_loop(t_wolf *wolf)
 		process_inputs(wolf);
 		ft_update(wolf);
 		ft_draw(wolf);
-		SDL_RenderPresent(wolf->render);
+		SDL_BlitSurface(wolf->render, NULL, screen, NULL);
+		SDL_UpdateWindowSurface(wolf->win);
 		t_elapsed = SDL_GetTicks() - t_start;
         if(t_elapsed < wolf->time_step) {
             SDL_Delay(wolf->time_step - t_elapsed);
@@ -50,8 +53,8 @@ void			game_loop(t_wolf *wolf)
 void			init_values(t_wolf *wolf)
 {
 	wolf->exit = 0;
-	wolf->win_w = 640 * 1;
-	wolf->win_h = 400 * 1;
+	wolf->win_w = 320 * 2.5;
+	wolf->win_h = 200 * 2.5;
 	wolf->fov = 60;
 	wolf->frequency = 144.0;
 	wolf->time_step = 1000.0 / (double)wolf->frequency;
