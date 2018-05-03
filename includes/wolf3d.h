@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 17:24:15 by schaaban          #+#    #+#             */
-/*   Updated: 2018/04/27 18:35:14 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/03 04:56:51 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@
 # define W_ERROR_OPEN		3
 # define W_ERROR_CLOSE		4
 # define W_ERROR_ARGS		5
+
+# define O_NORTH			0
+# define O_EAST				1
+# define O_WEST				2
+# define O_SOUTH			3
 
 typedef struct		s_player
 {
@@ -58,6 +63,7 @@ typedef struct		s_wolf
 	int				**map;
 	int				map_w;
 	int				map_h;
+	int				actual_side;
 	t_player		*player;
 }					t_wolf;
 
@@ -74,7 +80,7 @@ void			ft_draw_v_line(int x, int y1, int y2, int color, t_wolf *wolf);
 
 double			*get_closer_h(double x, double y, double a, t_wolf *wolf);
 double			*get_closer_v(double x, double y, double a, t_wolf *wolf);
-int				ft_raylen(double *r, double *p);
+double			ft_raylen(double *r, double *p, double angle);
 
 double			*ray_cast(double angle, t_wolf *wolf);
 

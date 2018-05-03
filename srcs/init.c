@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 16:53:07 by schaaban          #+#    #+#             */
-/*   Updated: 2018/04/27 18:35:33 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/03 04:57:03 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static t_player	*init_player(t_wolf *wolf)
 
 	if (!(p = (t_player*)malloc(sizeof(t_player))))
 		error_handler(W_ERROR_MALLOC, wolf);
-	p->pos[0] = WALL_SIZE * 2 + WALL_SIZE / 2;
-	p->pos[1] = WALL_SIZE * 2 + WALL_SIZE / 2;
+	p->pos[0] = WALL_SIZE * 1 + WALL_SIZE / 2;
+	p->pos[1] = WALL_SIZE * 1 + WALL_SIZE / 2;
 	p->angle = 0;
 	p->speed = 400;
-	p->dist_pp = (wolf->win_w / 2) / tan(wolf->fov / 2 * M_PI / 180);
+	p->dist_pp = (double)(wolf->win_w / 2) / tan((wolf->fov / 2) * M_PI / 180);
 	return (p);
 }
 
@@ -50,8 +50,8 @@ void			game_loop(t_wolf *wolf)
 void			init_values(t_wolf *wolf)
 {
 	wolf->exit = 0;
-	wolf->win_w = 640;
-	wolf->win_h = 400;
+	wolf->win_w = 640 * 1;
+	wolf->win_h = 400 * 1;
 	wolf->fov = 60;
 	wolf->frequency = 144.0;
 	wolf->time_step = 1000.0 / (double)wolf->frequency;

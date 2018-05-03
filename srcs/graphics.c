@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 14:47:51 by schaaban          #+#    #+#             */
-/*   Updated: 2018/04/24 16:21:01 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/03 01:55:50 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ void		ft_put_pixel(int x, int y, int c, t_wolf *wolf)
 
 void		ft_draw_v_line(int x, int y1, int y2, int color, t_wolf *wolf)
 {
+	color = color;
 	while (y1 < y2)
 	{
-		ft_put_pixel(x, y1, color, wolf);
+		SDL_RenderDrawPoint(wolf->render, x, y1);
 		y1++;
 	}
 }

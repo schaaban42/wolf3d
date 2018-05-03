@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 17:42:37 by schaaban          #+#    #+#             */
-/*   Updated: 2018/04/27 18:56:44 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/03 05:06:38 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void			ft_draw(t_wolf *wolf)
 		double		angle;
 		double		*ray;
 
-		angle = wolf->player->angle - (wolf->fov / 2) + ((wolf->fov / wolf->win_w) * i);
+		angle = wolf->player->angle - (wolf->fov / 2) + ((wolf->fov / (double)wolf->win_w) * (double)i);
+		angle = wolf->player->angle + atan(((i - (double)wolf->win_w + ((double)wolf->win_w / 2.0)) / wolf->player->dist_pp)) * 180.0 / M_PI;
 		if (angle >= 360)
 			angle -= 360;
 		if (angle < 0)
@@ -47,17 +48,30 @@ void			ft_draw(t_wolf *wolf)
 			double	dist;
 			double	yreal;
 
-			dist = ft_raylen(ray, wolf->player->pos) * cos((-(wolf->fov / 2) + ((wolf->fov / (double)wolf->win_w) * i)) * M_PI / 180.0);
-			yreal = (wolf->win_h / 2) - ((WALL_SIZE / (dist / wolf->player->dist_pp)) / 2);
-			int blur = 128 * (dist / wolf->player->dist_pp);
-			if (blur > 255) blur = 255;
-			SDL_SetRenderDrawColor(wolf->render, 255 - blur,
-				255 - blur, 255 - blur, 255);
-			SDL_RenderDrawLine(wolf->render, i, yreal, i, yreal + WALL_SIZE / (dist / wolf->player->dist_pp));
+			dist = ft_raylen(ray, wolf->player->pos, angle) * cos((wolf->player->angle - angle) * M_PI / 180.0);
+			yreal = (double)(wolf->win_h / 2.0) - (((double)WALL_SIZE / (double)(dist / wolf->player->dist_pp)) / 2);
 			SDL_SetRenderDrawColor(wolf->render, 50, 200, 255, 255);
-			SDL_RenderDrawLine(wolf->render, i, 0, i, yreal);
+			SDL_RenderDrawLine(wolf->render, i, 0, i, ceil(yreal));
 			SDL_SetRenderDrawColor(wolf->render, 255, 190, 55, 255);
-			SDL_RenderDrawLine(wolf->render, i, yreal + WALL_SIZE / (dist / wolf->player->dist_pp), i, wolf->win_h - 1);
+			SDL_RenderDrawLine(wolf->render, i, floor(yreal + (double)WALL_SIZE / (double)(dist / wolf->player->dist_pp)), i, wolf->win_h - 1);
+			switch (wolf->actual_side)
+			{
+				case O_NORTH:
+					SDL_SetRenderDrawColor(wolf->render, 255, 0, 0, 255);
+					break;
+				case O_SOUTH:
+					SDL_SetRenderDrawColor(wolf->render, 0, 0, 255, 255);
+					break;
+				case O_EAST:
+					SDL_SetRenderDrawColor(wolf->render, 0, 255, 0, 255);
+					break;
+				case O_WEST:
+					SDL_SetRenderDrawColor(wolf->render, 255, 255, 0, 255);
+					break;
+				default:
+					break;
+			}
+			SDL_RenderDrawLine(wolf->render, i, yreal, i, yreal + (double)WALL_SIZE / (double)(dist / wolf->player->dist_pp));
 			ft_memdel((void**)&ray);
 		}
 	}
