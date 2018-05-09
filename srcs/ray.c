@@ -6,51 +6,42 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/25 14:27:47 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/03 03:25:53 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/08 21:41:22 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-double			*get_closer_h(double x, double y, double a, t_wolf *wolf)
+int				get_closer_h(double pos[2], t_ray *ray)
 {
-	double		*p_a;
-	double		slope;
-
-	slope = sin(a * M_PI / 180) / cos(a * M_PI / 180);
-	if (a == 0 || a == 180)
-		return (NULL);
-	if ((!(p_a = (double*)malloc(sizeof(double) * 2))))
-		error_handler(W_ERROR_MALLOC, wolf);
-	else if (a < 180)
-		p_a[1] = ceil(y / WALL_SIZE) * WALL_SIZE;
+	if (ray->angle == 0 || ray->angle == 180)
+		return (0);
+	if (ray->angle < 180)
+		ray->a_h[1] = ceil(pos[1] / (double)WALL_SIZE) * (double)WALL_SIZE;
 	else
-		p_a[1] = floor(y / WALL_SIZE) * WALL_SIZE;
-	p_a[0] = x + (y - p_a[1]) / -slope;
-	return (p_a);
+		ray->a_h[1] = floor(pos[1] / (double)WALL_SIZE) * (double)WALL_SIZE;
+	ray->a_h[0] = pos[0] + (pos[1] - ray->a_h[1]) /
+		-tan(ray->angle * W_PI / 180.0);
+	return (1);
 }
 
-double			*get_closer_v(double x, double y, double a, t_wolf *wolf)
+int				get_closer_v(double pos[2], t_ray *ray)
 {
-	double		*p_a;
-	double		slope;
-
-	slope = sin(a * M_PI / 180) / cos(a * M_PI / 180);
-	if (a == 90 || a == 270)
-		return (NULL);
-	if ((!(p_a = (double*)malloc(sizeof(double) * 2))))
-		error_handler(W_ERROR_MALLOC, wolf);
-	else if (a < 90 || a > 270)
-		p_a[0] = ceil(x / WALL_SIZE) * WALL_SIZE;
+	if (ray->angle == 90 || ray->angle == 270)
+		return (0);
+	if (ray->angle < 90 || ray->angle > 270)
+		ray->a_v[0] = ceil(pos[0] / (double)WALL_SIZE) * (double)WALL_SIZE;
 	else
-		p_a[0] = floor(x / WALL_SIZE) * WALL_SIZE;
-	p_a[1] = y + (x - p_a[0]) * -slope;
-	return (p_a);
+		ray->a_v[0] = floor(pos[0] / (double)WALL_SIZE) * (double)WALL_SIZE;
+	ray->a_v[1] = pos[1] + (pos[0] - ray->a_v[0]) *
+		-tan(ray->angle * W_PI / 180.0f);
+	return (1);
 }
 
-double			ft_raylen(double *r, double *p, double angle)
+double			ft_raylen(double *r, double *p)
 {
-	angle = angle;
 	return (sqrt((p[0] - r[0]) * (p[0] - r[0]) +
 		(p[1] - r[1]) * (p[1] - r[1])));
 }
+
+

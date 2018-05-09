@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 17:23:15 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/03 16:03:58 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/07 23:25:52 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int				main(int argc, char **argv)
 
 	wolf.win = NULL;
 	wolf.render = NULL;
+	wolf.rays = NULL;
+	wolf.map = NULL;
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 		error_handler(W_ERROR_SDL_INIT, &wolf);
 	init_file_read(argc, argv, &wolf);

@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 17:24:15 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/03 17:10:10 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/09 02:20:39 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h>
 
 # define WALL_SIZE			64
+# define W_PI				(double)3.14159265358979
 
 # define DELTA				wolf->delta
 
@@ -31,11 +32,21 @@
 # define W_ERROR_OPEN		3
 # define W_ERROR_CLOSE		4
 # define W_ERROR_ARGS		5
+# define W_ERROR_RAY		6
+
+# define W_HORIZONTAL		0
+# define W_VERTICAL			1
 
 # define O_NORTH			0
 # define O_EAST				1
 # define O_WEST				2
 # define O_SOUTH			3
+
+# define MM_SIZE			150
+# define MM_POS_X			wolf->win_w - MM_SIZE - 20
+# define MM_POS_Y			20
+# define MM_O_X				MM_POS_X + (MM_SIZE / 2)
+# define MM_O_Y				MM_POS_Y + (MM_SIZE / 2)
 
 typedef struct		s_player
 {
@@ -44,6 +55,15 @@ typedef struct		s_player
 	double			dist_pp;
 	double			speed;
 }					t_player;
+
+typedef struct		s_ray
+{
+	double			pos[2];
+	double			a_h[2];
+	double			a_v[2];
+	double			angle;
+	int				side;
+}					t_ray;
 
 typedef struct		s_wolf
 {
@@ -60,10 +80,10 @@ typedef struct		s_wolf
 	double			frequency;
 	double			fov;
 	double			sub_angle;
+	t_ray			**rays;
 	int				**map;
 	int				map_w;
 	int				map_h;
-	int				actual_side;
 	t_player		*player;
 }					t_wolf;
 
@@ -77,14 +97,25 @@ void			parse_file(t_wolf *wolf);
 
 void			ft_put_pixel(int x, int y, int color, t_wolf *wolf);
 void			ft_draw_v_line(int x, int y1, int y2, int color, t_wolf *wolf);
+void			ft_draw_rect(int p[4], int color, t_wolf *wolf);
+void			ft_draw_f_c(int x, int y1, int y2, t_wolf *wolf);
 void			ft_clear_win(t_wolf *wolf);
+
+void			minimap_pixel(int x, int y, int color, t_wolf *wolf);
+void			mm_draw_rect(int p[4], int color, t_wolf *wolf);
+
+void			mm_draw_line(int cc[6], t_wolf *wolf);
+
 int				ft_get_color(int r, int g, int b);
+int				color_gradient(int cs, int ce, double value);
 
-double			*get_closer_h(double x, double y, double a, t_wolf *wolf);
-double			*get_closer_v(double x, double y, double a, t_wolf *wolf);
-double			ft_raylen(double *r, double *p, double angle);
+int				get_closer_h(double pos[2], t_ray *ray);
+int				get_closer_v(double pos[2], t_ray *ray);
+double			ft_raylen(double *r, double *p);
 
-double			*ray_cast(double angle, t_wolf *wolf);
+void			ray_cast(double pos[2], t_ray *ray, t_wolf *wolf);
+
+void			draw_minimap(t_wolf *wolf);
 
 void			ft_draw(t_wolf *wolf);
 void			ft_update(t_wolf *wolf);

@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 16:57:35 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/03 16:04:34 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/09 00:07:45 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ void	ft_exit(t_wolf *wolf)
 		SDL_FreeSurface(wolf->render);
 	if (wolf->win)
 		SDL_DestroyWindow(wolf->win);
+	if (wolf->rays)
+		ft_a2ddel((void***)&wolf->rays);
+	if (wolf->map)
+		ft_a2ddel((void***)&wolf->map);
 	SDL_Quit();
 	exit(0);
 }
@@ -37,6 +41,8 @@ void	error_handler(int error, t_wolf *wolf)
 		ft_putendl_fd("error: could not open file", 2);
 	else if (error == W_ERROR_CLOSE)
 		ft_putendl_fd("error: could not close file", 2);
+	else if (error == W_ERROR_RAY)
+		ft_putendl_fd("error: ray out of map", 2);
 	else
 	{
 		if (error == W_ERROR_READ)

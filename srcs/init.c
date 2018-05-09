@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 16:53:07 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/03 16:24:51 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/08 21:54:05 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static t_player	*init_player(t_wolf *wolf)
 
 	if (!(p = (t_player*)malloc(sizeof(t_player))))
 		error_handler(W_ERROR_MALLOC, wolf);
-	p->pos[0] = WALL_SIZE * 1 + WALL_SIZE / 2;
-	p->pos[1] = WALL_SIZE * 1 + WALL_SIZE / 2;
+	p->pos[0] = (double)WALL_SIZE * 1.0 + (double)WALL_SIZE / 2;
+	p->pos[1] = (double)WALL_SIZE * 1.0 + (double)WALL_SIZE / 2;
 	p->angle = 0;
-	p->speed = 400;
-	p->dist_pp = (double)(wolf->win_w / 2) / tan((wolf->fov / 2) * M_PI / 180);
+	p->speed = 4 * WALL_SIZE;
+	p->dist_pp = ((double)wolf->win_w / 2) / tan((wolf->fov * 0.5) * M_PI / 180);
 	return (p);
 }
 
@@ -52,13 +52,24 @@ void			game_loop(t_wolf *wolf)
 
 void			init_values(t_wolf *wolf)
 {
+	int		i;
+
+	i = -1;
 	wolf->exit = 0;
 	wolf->win_w = 320 * 2.5;
-	wolf->win_h = 200 * 2.5;
+	wolf->win_h = 240 * 2.5;
 	wolf->fov = 60;
 	wolf->frequency = 144.0;
 	wolf->time_step = 1000.0 / (double)wolf->frequency;
 	wolf->player = init_player(wolf);
+	if (!(wolf->rays = (t_ray**)malloc(sizeof(t_ray*) * (wolf->win_w + 1))))
+		error_handler(W_ERROR_MALLOC, wolf);
+	while (++i < wolf->win_w)
+	{
+		if (!(wolf->rays[i] = (t_ray*)malloc(sizeof(t_ray))))
+			error_handler(W_ERROR_MALLOC, wolf);
+	}
+	wolf->rays[i] = NULL;
 }
 
 void			init_file_read(int argc, char **argv, t_wolf *wolf)
