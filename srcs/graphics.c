@@ -6,25 +6,26 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 14:47:51 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/07 22:51:40 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/09 16:28:38 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-void			ft_put_pixel(int x, int y, int c, t_wolf *wolf)
+void			ft_put_pixel(int x, int y, Uint32 c, t_wolf *wolf)
 {
 	Uint32 *target;
 	if (x >= 0 && y >= 0 && x < wolf->win_w && y < wolf->win_h &&
 		wolf->win && wolf->render)
 	{
-		target = (Uint32*)((Uint8*)wolf->render->pixels + y *
-			wolf->render->pitch + x * sizeof(*target));
+		target = (Uint32*)(wolf->render->pixels + y *
+			wolf->render->pitch + x * wolf->render->format->BytesPerPixel);
 		*target = (Uint32)c | 0xff000000;
 	}
 }
 
-void			ft_draw_v_line(int x, int y1, int y2, int color, t_wolf *wolf)
+void			ft_draw_v_line(int x, int y1, int y2,
+	Uint32 color, t_wolf *wolf)
 {
 	if (y1 < 0)
 		y1 = 0;
@@ -37,7 +38,7 @@ void			ft_draw_v_line(int x, int y1, int y2, int color, t_wolf *wolf)
 	}
 }
 
-void			ft_draw_rect(int p[4], int color, t_wolf *wolf)
+void			ft_draw_rect(int p[4], Uint32 color, t_wolf *wolf)
 {
 	int		i;
 	int		j;

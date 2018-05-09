@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 17:24:15 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/09 02:20:39 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/09 22:22:06 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <fcntl.h>
 
 # define WALL_SIZE			64
+# define TEX_SIZE			64
+# define MAX_TEX			9
 # define W_PI				(double)3.14159265358979
 
 # define DELTA				wolf->delta
@@ -33,6 +35,7 @@
 # define W_ERROR_CLOSE		4
 # define W_ERROR_ARGS		5
 # define W_ERROR_RAY		6
+# define W_ERROR_TEX_S		7
 
 # define W_HORIZONTAL		0
 # define W_VERTICAL			1
@@ -42,7 +45,7 @@
 # define O_WEST				2
 # define O_SOUTH			3
 
-# define MM_SIZE			150
+# define MM_SIZE			100
 # define MM_POS_X			wolf->win_w - MM_SIZE - 20
 # define MM_POS_Y			20
 # define MM_O_X				MM_POS_X + (MM_SIZE / 2)
@@ -62,6 +65,9 @@ typedef struct		s_ray
 	double			a_h[2];
 	double			a_v[2];
 	double			angle;
+	double			dist;
+	int				wall_x;
+	int				map_v[3];
 	int				side;
 }					t_ray;
 
@@ -80,6 +86,7 @@ typedef struct		s_wolf
 	double			frequency;
 	double			fov;
 	double			sub_angle;
+	Uint32			tex[MAX_TEX][TEX_SIZE][TEX_SIZE];
 	t_ray			**rays;
 	int				**map;
 	int				map_w;
@@ -95,19 +102,22 @@ void			game_loop(t_wolf *wolf);
 
 void			parse_file(t_wolf *wolf);
 
-void			ft_put_pixel(int x, int y, int color, t_wolf *wolf);
-void			ft_draw_v_line(int x, int y1, int y2, int color, t_wolf *wolf);
-void			ft_draw_rect(int p[4], int color, t_wolf *wolf);
+void			ft_put_pixel(int x, int y, Uint32 color, t_wolf *wolf);
+void			ft_draw_v_line(int x, int y1, int y2,
+	Uint32 color, t_wolf *wolf);
+void			ft_draw_rect(int p[4], Uint32 color, t_wolf *wolf);
 void			ft_draw_f_c(int x, int y1, int y2, t_wolf *wolf);
 void			ft_clear_win(t_wolf *wolf);
 
-void			minimap_pixel(int x, int y, int color, t_wolf *wolf);
-void			mm_draw_rect(int p[4], int color, t_wolf *wolf);
+void			minimap_pixel(int x, int y, Uint32 color, t_wolf *wolf);
+void			mm_draw_rect(int p[4], Uint32 color, t_wolf *wolf);
 
 void			mm_draw_line(int cc[6], t_wolf *wolf);
 
 int				ft_get_color(int r, int g, int b);
 int				color_gradient(int cs, int ce, double value);
+
+void			ft_fill_tex(int index, SDL_Surface *sf, t_wolf *wolf);
 
 int				get_closer_h(double pos[2], t_ray *ray);
 int				get_closer_v(double pos[2], t_ray *ray);

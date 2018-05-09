@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/03 17:47:50 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/09 00:52:40 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/09 16:07:19 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void			draw_minimap(t_wolf *wolf)
 	mm_draw_rect(bg, 0, wolf);
 	int		i;
 
-	i = 0;
+	i = -1;
 	while (wolf->rays[++i])
 	{
 		int v[6];

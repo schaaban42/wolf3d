@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 16:53:07 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/08 21:54:05 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/09 22:53:26 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,27 @@ static t_player	*init_player(t_wolf *wolf)
 	p->speed = 4 * WALL_SIZE;
 	p->dist_pp = ((double)wolf->win_w / 2) / tan((wolf->fov * 0.5) * M_PI / 180);
 	return (p);
+}
+
+static void		init_tex(t_wolf *wolf)
+{
+	int				i;
+	SDL_Surface		*a_tex;
+	char			*str;
+
+	i = -1;
+	if (!(str = ft_strdup("./tex/1.bmp")))
+		error_handler(W_ERROR_MALLOC, wolf);
+	while (++i < MAX_TEX)
+	{
+		str[6] = i + 1 + '0';
+		if (!(a_tex = SDL_LoadBMP(str)))
+			error_handler(W_ERROR_MALLOC, wolf);
+		if (a_tex->w != TEX_SIZE || a_tex->h != TEX_SIZE)
+			error_handler(W_ERROR_TEX_S, wolf);
+		ft_fill_tex(i, a_tex, wolf);
+		SDL_FreeSurface(a_tex);
+	}
 }
 
 void			game_loop(t_wolf *wolf)
@@ -56,19 +77,18 @@ void			init_values(t_wolf *wolf)
 
 	i = -1;
 	wolf->exit = 0;
-	wolf->win_w = 320 * 2.5;
-	wolf->win_h = 240 * 2.5;
-	wolf->fov = 60;
+	wolf->win_w = 400 * 1.5;
+	wolf->win_h = 300 * 1.5;
+	wolf->fov = 179;
 	wolf->frequency = 144.0;
 	wolf->time_step = 1000.0 / (double)wolf->frequency;
+	init_tex(wolf);
 	wolf->player = init_player(wolf);
 	if (!(wolf->rays = (t_ray**)malloc(sizeof(t_ray*) * (wolf->win_w + 1))))
 		error_handler(W_ERROR_MALLOC, wolf);
 	while (++i < wolf->win_w)
-	{
 		if (!(wolf->rays[i] = (t_ray*)malloc(sizeof(t_ray))))
 			error_handler(W_ERROR_MALLOC, wolf);
-	}
 	wolf->rays[i] = NULL;
 }
 

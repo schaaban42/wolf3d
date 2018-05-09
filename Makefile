@@ -6,7 +6,7 @@
 #    By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/19 09:41:23 by schaaban          #+#    #+#              #
-#    Updated: 2018/05/07 22:36:56 by schaaban         ###   ########.fr        #
+#    Updated: 2018/05/09 16:19:25 by schaaban         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ SRCS		=		$(addprefix $(SRCS_DIR)/, 	\
 					minimap.c					\
 					graphics_line_mm.c			\
 					color.c						\
-					graphics_mm.c				)
+					graphics_mm.c				\
+					tex.c						)
 OBJS		=		$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 COLOR_RED	=	\033[1;31m

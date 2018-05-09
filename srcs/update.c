@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 17:43:23 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/08 21:38:04 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/09 14:15:54 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,7 @@ void			ft_update(t_wolf *wolf)
 		if (wolf->rays[i]->angle < 0)
 			wolf->rays[i]->angle += 360;
 		ray_cast(wolf->player->pos, wolf->rays[i], wolf);
+		wolf->rays[i]->dist = ft_raylen(wolf->rays[i]->pos, wolf->player->pos) *
+			cos((wolf->player->angle - wolf->rays[i]->angle) * W_PI / 180.0);
 	}
 }
