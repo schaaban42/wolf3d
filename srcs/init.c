@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 16:53:07 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/09 22:53:26 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/11 16:52:03 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static t_player	*init_player(t_wolf *wolf)
 		error_handler(W_ERROR_MALLOC, wolf);
 	p->pos[0] = (double)WALL_SIZE * 1.0 + (double)WALL_SIZE / 2;
 	p->pos[1] = (double)WALL_SIZE * 1.0 + (double)WALL_SIZE / 2;
-	p->angle = 0;
-	p->speed = 4 * WALL_SIZE;
+	p->angle = 45;
+	p->speed = 5 * WALL_SIZE;
 	p->dist_pp = ((double)wolf->win_w / 2) / tan((wolf->fov * 0.5) * M_PI / 180);
 	return (p);
 }
@@ -65,9 +65,8 @@ void			game_loop(t_wolf *wolf)
 		SDL_BlitSurface(wolf->render, NULL, screen, NULL);
 		SDL_UpdateWindowSurface(wolf->win);
 		t_elapsed = SDL_GetTicks() - t_start;
-        if(t_elapsed < wolf->time_step) {
+        if(t_elapsed < wolf->time_step)
             SDL_Delay(wolf->time_step - t_elapsed);
-        }
 	}
 }
 
@@ -77,9 +76,9 @@ void			init_values(t_wolf *wolf)
 
 	i = -1;
 	wolf->exit = 0;
-	wolf->win_w = 400 * 1.5;
-	wolf->win_h = 300 * 1.5;
-	wolf->fov = 179;
+	wolf->win_w = 600;
+	wolf->win_h = 400;
+	wolf->fov = 60;
 	wolf->frequency = 144.0;
 	wolf->time_step = 1000.0 / (double)wolf->frequency;
 	init_tex(wolf);

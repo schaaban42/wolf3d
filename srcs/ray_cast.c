@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/27 14:02:10 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/09 21:51:30 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/11 14:21:38 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void		ray_wall_h(int hit[2], t_ray *ray, t_wolf *wolf)
 	double		xa;
 	double		ya;
 
-	ya = (ray->angle > 180) ? -WALL_SIZE : WALL_SIZE;
+	ya = (ray->angle > 180.0) ? -WALL_SIZE : WALL_SIZE;
 	xa = ya / tan(ray->angle * W_PI / 180.0);
 	while (!hit[0])
 	{
@@ -36,7 +36,7 @@ static void		ray_wall_h(int hit[2], t_ray *ray, t_wolf *wolf)
 		ray->a_h[0] = ray->a_h[0] + xa;
 		ray->a_h[1] = ray->a_h[1] + ya;
 	}
-	ray->a_h[1] += ((ray->angle > 180) ? 1.0 : 0);
+	ray->a_h[1] += ((ray->angle > 180.0) ? 1.0 : 0);
 }
 
 static void		ray_wall_v(int hit[2], t_ray *ray, t_wolf *wolf)
@@ -44,7 +44,7 @@ static void		ray_wall_v(int hit[2], t_ray *ray, t_wolf *wolf)
 	double		xa;
 	double		ya;
 
-	xa = (ray->angle < 90 || ray->angle > 270) ? WALL_SIZE : -WALL_SIZE;
+	xa = (ray->angle < 90.0 || ray->angle > 270.0) ? WALL_SIZE : -WALL_SIZE;
 	ya = xa * tan(ray->angle * W_PI / 180.0);
 	while (!hit[1])
 	{
@@ -63,7 +63,7 @@ static void		ray_wall_v(int hit[2], t_ray *ray, t_wolf *wolf)
 		ray->a_v[0] = ray->a_v[0] + xa;
 		ray->a_v[1] = ray->a_v[1] + ya;
 	}
-	ray->a_v[0] += ((ray->angle > 90 && ray->angle < 270) ? 1.0 : 0);
+	ray->a_v[0] += ((ray->angle > 90.0 && ray->angle < 270.0) ? 1.0 : 0);
 }
 
 static int		ray_return(int hit[2], t_ray *ray, t_wolf *wolf)
@@ -73,20 +73,20 @@ static int		ray_return(int hit[2], t_ray *ray, t_wolf *wolf)
 		if (ft_raylen(ray->a_h, wolf->player->pos) < 
 			ft_raylen(ray->a_v, wolf->player->pos))
 		{
-			ray->side = (ray->angle < 180) ? O_SOUTH : O_NORTH;
+			ray->side = (ray->angle < 180.0) ? O_SOUTH : O_NORTH;
 			return (W_HORIZONTAL);
 		}
-		ray->side = (ray->angle > 90 && ray->angle < 270) ? O_EAST : O_WEST;
+		ray->side = (ray->angle > 90.0 && ray->angle < 270.0) ? O_EAST : O_WEST;
 		return (W_VERTICAL);
 	}
 	if (hit[0] == 1)
 	{
-		ray->side = (ray->angle < 180) ? O_SOUTH : O_NORTH;
+		ray->side = (ray->angle < 180.0) ? O_SOUTH : O_NORTH;
 		return (W_HORIZONTAL);
 	}
 	else if (hit[1] == 1)
 	{
-		ray->side = (ray->angle > 90 && ray->angle < 270) ? O_EAST : O_WEST;
+		ray->side = (ray->angle > 90.0 && ray->angle < 270.0) ? O_EAST : O_WEST;
 		return (W_VERTICAL);
 	}
 	return (-1);
@@ -118,4 +118,5 @@ void			ray_cast(double pos[2], t_ray *ray, t_wolf *wolf)
 		ray->map_v[2] = ray->map_v[1];
 		ray->wall_x = (int)ray->pos[1] % WALL_SIZE;
 	}
+	ray->wall_x = ((double)ray->wall_x / (double)WALL_SIZE) * (double)TEX_SIZE;
 }

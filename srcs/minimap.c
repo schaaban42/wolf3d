@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/03 17:47:50 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/09 16:07:19 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/10 02:31:06 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void			draw_minimap(t_wolf *wolf)
 	int		bg[4];
 	int 	wall;
 
-	wall = 20;
+	wall = 8;
 	bg[0] = MM_POS_X - 3;
 	bg[1] = MM_POS_Y - 3;
 	bg[2] = MM_SIZE + 6;

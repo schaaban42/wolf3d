@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 16:45:40 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/03 21:24:37 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/10 02:25:45 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ static void		inputs_move(t_wolf *wolf)
 
 	if (wolf->keys[SDL_SCANCODE_W])
 	{
-		mx = wolf->player->speed * DELTA * cos(wolf->player->angle * M_PI / 180);
-		my = wolf->player->speed * DELTA * sin(wolf->player->angle * M_PI / 180);
+		mx = wolf->player->speed * DELTA * cos(wolf->player->angle * W_PI / 180.0);
+		my = wolf->player->speed * DELTA * sin(wolf->player->angle * W_PI / 180.0);
 		if (wolf->map[(int)(wolf->player->pos[1] / WALL_SIZE)]
 			[(int)((wolf->player->pos[0] + mx) / WALL_SIZE)] == 0)
 			wolf->player->pos[0] += mx;
@@ -30,8 +30,8 @@ static void		inputs_move(t_wolf *wolf)
 	}
 	if (wolf->keys[SDL_SCANCODE_S])
 	{
-		mx = -wolf->player->speed * DELTA * cos(wolf->player->angle * M_PI / 180);
-		my = -wolf->player->speed * DELTA * sin(wolf->player->angle * M_PI / 180);
+		mx = -wolf->player->speed * DELTA * cos(wolf->player->angle * W_PI / 180.0);
+		my = -wolf->player->speed * DELTA * sin(wolf->player->angle * W_PI / 180.0);
 		if (wolf->map[(int)(wolf->player->pos[1] / WALL_SIZE)]
 			[(int)((wolf->player->pos[0] + mx) / WALL_SIZE)] == 0)
 			wolf->player->pos[0] += mx;
@@ -41,8 +41,8 @@ static void		inputs_move(t_wolf *wolf)
 	}
 	if (wolf->keys[SDL_SCANCODE_A])
 	{
-		mx = wolf->player->speed * DELTA * cos((wolf->player->angle - 90) * M_PI / 180);
-		my = wolf->player->speed * DELTA * sin((wolf->player->angle - 90) * M_PI / 180);
+		mx = wolf->player->speed * DELTA * cos((wolf->player->angle - 90) * W_PI / 180.0);
+		my = wolf->player->speed * DELTA * sin((wolf->player->angle - 90) * W_PI / 180.0);
 		if (wolf->map[(int)(wolf->player->pos[1] / WALL_SIZE)]
 			[(int)((wolf->player->pos[0] + mx) / WALL_SIZE)] == 0)
 			wolf->player->pos[0] += mx;
@@ -52,8 +52,8 @@ static void		inputs_move(t_wolf *wolf)
 	}
 	if (wolf->keys[SDL_SCANCODE_D])
 	{
-		mx = -wolf->player->speed * DELTA * cos((wolf->player->angle - 90) * M_PI / 180);
-		my = -wolf->player->speed * DELTA * sin((wolf->player->angle - 90) * M_PI / 180);
+		mx = -wolf->player->speed * DELTA * cos((wolf->player->angle - 90) * W_PI / 180.0);
+		my = -wolf->player->speed * DELTA * sin((wolf->player->angle - 90) * W_PI / 180.0);
 		if (wolf->map[(int)(wolf->player->pos[1] / WALL_SIZE)]
 			[(int)((wolf->player->pos[0] + mx) / WALL_SIZE)] == 0)
 			wolf->player->pos[0] += mx;
