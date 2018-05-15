@@ -6,27 +6,68 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 16:14:28 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/09 17:11:15 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/15 18:03:03 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-void			ft_fill_tex(int index, SDL_Surface *sf, t_wolf *wolf)
+static void		fill_first_tex(int index, SDL_Surface *sf, t_wolf *wolf)
 {
 	int		i;
 	int		j;
 
+	if (!(wolf->tex[index] =
+		(Uint32**)malloc(sizeof(Uint32*) * (WALL_SIZE + 1))))
+		error_handler(W_ERROR_MALLOC, wolf);
 	i = -1;
-	while (++i < TEX_SIZE)
+	while (++i < WALL_SIZE)
 	{
+		if (!(wolf->tex[index][i] =
+			(Uint32*)malloc(sizeof(Uint32) * (WALL_SIZE))))
+			error_handler(W_ERROR_MALLOC, wolf);
 		j = -1;
-		while (++j < TEX_SIZE)
+		while (++j < WALL_SIZE)
 		{
 			wolf->tex[index][i][j] = (Uint32)*((Uint32*)(sf->pixels + i *
 				sf->pitch + j * sf->format->BytesPerPixel));
-			wolf->tex[index][i][j] = ((wolf->tex[index][i][j] & 0xff) << 24) |
-				((wolf->tex[index][i][j] & 0xffffff00) >> 8);
+			//wolf->tex[index][i][j] = ((wolf->tex[index][i][j] & 0xff) << 24) |
+			//	((wolf->tex[index][i][j] & 0xffffff00) >> 8);
 		}
 	}
+	wolf->tex[index][i] = NULL;
+}
+
+static void		fill_sky_tex(int index, SDL_Surface *sf, t_wolf *wolf)
+{
+	int		i;
+	int		j;
+
+	if (!(wolf->tex[index] =
+		(Uint32**)malloc(sizeof(Uint32*) * (SKY_H + 1))))
+		error_handler(W_ERROR_MALLOC, wolf);
+	i = -1;
+	while (++i < SKY_H)
+	{
+		if (!(wolf->tex[index][i] =
+			(Uint32*)malloc(sizeof(Uint32) * (SKY_W))))
+			error_handler(W_ERROR_MALLOC, wolf);
+		j = -1;
+		while (++j < SKY_W)
+		{
+			wolf->tex[index][i][j] = (Uint32)*((Uint32*)(sf->pixels + i *
+				sf->pitch + j * sf->format->BytesPerPixel));
+			//wolf->tex[index][i][j] = ((wolf->tex[index][i][j] & 0xff) << 24) |
+			//	((wolf->tex[index][i][j] & 0xffffff00) >> 8);
+		}
+	}
+	wolf->tex[index][i] = NULL;
+}
+
+void			ft_fill_tex(int index, SDL_Surface *sf, t_wolf *wolf)
+{
+	if (index < 10)
+		fill_first_tex(index, sf, wolf);
+	else
+		fill_sky_tex(index, sf, wolf);
 }

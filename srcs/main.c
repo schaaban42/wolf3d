@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 17:23:15 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/11 01:14:15 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/13 00:00:47 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int				main(int argc, char **argv)
 	init_values(&wolf);
 	wolf.win = SDL_CreateWindow("Wolf3D", 
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
-		wolf.win_w, wolf.win_h, SDL_WINDOW_SHOWN);
-	wolf.render = SDL_CreateRGBSurface(0, wolf.win_w, wolf.win_h, 32,
+		wolf.plan_w, wolf.plan_h, SDL_WINDOW_SHOWN);
+	wolf.render = SDL_CreateRGBSurface(0, wolf.plan_w, wolf.plan_h, 32,
 		0xff0000, 0xff00, 0xff, 0xff000000);
 	game_loop(&wolf);
 	ft_exit(&wolf);

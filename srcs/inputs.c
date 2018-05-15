@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/17 16:45:40 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/10 02:25:45 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/15 20:09:13 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,11 @@ void			process_inputs(t_wolf *wolf)
 			if (wolf->event.window.event == SDL_WINDOWEVENT_CLOSE)
 				wolf->exit = 1;
 		}
+		if (wolf->event.type == SDL_KEYDOWN)
+		{
+			if (wolf->event.key.keysym.sym == SDLK_n)
+				wolf->night = (wolf->night) ? 0 : 1;
+		}
 		if (wolf->event.type == SDL_QUIT)
 			wolf->exit = 1;
 	}
@@ -82,8 +87,8 @@ void			process_inputs(t_wolf *wolf)
 	if (wolf->keys[SDL_SCANCODE_ESCAPE])
 		wolf->exit = 1;
 	if (wolf->keys[SDL_SCANCODE_Q])
-		wolf->player->angle -= (110 * DELTA);
+		wolf->player->angle -= (150 * DELTA);
 	if (wolf->keys[SDL_SCANCODE_E])
-		wolf->player->angle += (110 * DELTA);
+		wolf->player->angle += (150 * DELTA);
 	inputs_move(wolf);
 }

@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 16:53:07 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/11 16:52:03 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/15 21:20:41 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static t_player	*init_player(t_wolf *wolf)
 		error_handler(W_ERROR_MALLOC, wolf);
 	p->pos[0] = (double)WALL_SIZE * 1.0 + (double)WALL_SIZE / 2;
 	p->pos[1] = (double)WALL_SIZE * 1.0 + (double)WALL_SIZE / 2;
-	p->angle = 45;
+	p->angle = 0;
 	p->speed = 5 * WALL_SIZE;
-	p->dist_pp = ((double)wolf->win_w / 2) / tan((wolf->fov * 0.5) * M_PI / 180);
+	p->dist_pp = ((double)wolf->plan_w / 2) / tan((wolf->fov * 0.5) * M_PI / 180);
 	return (p);
 }
 
@@ -33,24 +33,29 @@ static void		init_tex(t_wolf *wolf)
 	char			*str;
 
 	i = -1;
-	if (!(str = ft_strdup("./tex/1.bmp")))
+	if (!(str = ft_strdup("./tex/x.bmp")))
+		error_handler(W_ERROR_MALLOC, wolf);
+	if (!(wolf->tex = (Uint32***)malloc(sizeof(Uint32**) * (MAX_TEX + 1))))
 		error_handler(W_ERROR_MALLOC, wolf);
 	while (++i < MAX_TEX)
 	{
-		str[6] = i + 1 + '0';
+		str[6] = i + 'a';
 		if (!(a_tex = SDL_LoadBMP(str)))
 			error_handler(W_ERROR_MALLOC, wolf);
-		if (a_tex->w != TEX_SIZE || a_tex->h != TEX_SIZE)
+		if ((a_tex->w != WALL_SIZE || a_tex->h != WALL_SIZE) && i < 10)
 			error_handler(W_ERROR_TEX_S, wolf);
 		ft_fill_tex(i, a_tex, wolf);
 		SDL_FreeSurface(a_tex);
 	}
+	ft_strdel(&str);
+	wolf->tex[i] = NULL;
 }
 
 void			game_loop(t_wolf *wolf)
 {
 	double		t_start;
 	double		t_elapsed;
+	double		onesec;
 	SDL_Surface	*screen;
 
 	t_start = SDL_GetTicks();
@@ -58,15 +63,18 @@ void			game_loop(t_wolf *wolf)
 	while (wolf->exit != 1)
 	{
 		wolf->delta = (SDL_GetTicks() - t_start) / 1000;
+		onesec += wolf->delta;
 		t_start = SDL_GetTicks();
 		process_inputs(wolf);
 		ft_update(wolf);
 		ft_draw(wolf);
-		SDL_BlitSurface(wolf->render, NULL, screen, NULL);
+		SDL_BlitScaled(wolf->render, NULL, screen, NULL);
 		SDL_UpdateWindowSurface(wolf->win);
 		t_elapsed = SDL_GetTicks() - t_start;
         if(t_elapsed < wolf->time_step)
             SDL_Delay(wolf->time_step - t_elapsed);
+		if (onesec >= 0.35)
+			printf("%f\n", 1.0 / wolf->delta + (onesec = 0));
 	}
 }
 
@@ -76,16 +84,17 @@ void			init_values(t_wolf *wolf)
 
 	i = -1;
 	wolf->exit = 0;
-	wolf->win_w = 600;
-	wolf->win_h = 400;
+	wolf->plan_w = 600;
+	wolf->plan_h = 400;
 	wolf->fov = 60;
 	wolf->frequency = 144.0;
+	wolf->night = 0;
 	wolf->time_step = 1000.0 / (double)wolf->frequency;
 	init_tex(wolf);
 	wolf->player = init_player(wolf);
-	if (!(wolf->rays = (t_ray**)malloc(sizeof(t_ray*) * (wolf->win_w + 1))))
+	if (!(wolf->rays = (t_ray**)malloc(sizeof(t_ray*) * (wolf->plan_w + 1))))
 		error_handler(W_ERROR_MALLOC, wolf);
-	while (++i < wolf->win_w)
+	while (++i < wolf->plan_w)
 		if (!(wolf->rays[i] = (t_ray*)malloc(sizeof(t_ray))))
 			error_handler(W_ERROR_MALLOC, wolf);
 	wolf->rays[i] = NULL;

@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 14:47:51 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/09 16:28:38 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/14 18:13:32 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void			ft_put_pixel(int x, int y, Uint32 c, t_wolf *wolf)
 {
 	Uint32 *target;
-	if (x >= 0 && y >= 0 && x < wolf->win_w && y < wolf->win_h &&
+	if (x >= 0 && y >= 0 && x < wolf->plan_w && y < wolf->plan_h &&
 		wolf->win && wolf->render)
 	{
 		target = (Uint32*)(wolf->render->pixels + y *
@@ -29,8 +29,8 @@ void			ft_draw_v_line(int x, int y1, int y2,
 {
 	if (y1 < 0)
 		y1 = 0;
-	if (y2 >= wolf->win_h)
-		y2 = wolf->win_h - 1;
+	if (y2 >= wolf->plan_h)
+		y2 = wolf->plan_h - 1;
 	while (y1 <= y2)
 	{
 		ft_put_pixel(x, y1, color, wolf);
@@ -56,37 +56,6 @@ void			ft_draw_rect(int p[4], Uint32 color, t_wolf *wolf)
 	}
 }
 
-/*void		ft_draw_f_c(int x, int y1, int y2, t_wolf *wolf)
-{
-	int			i;
-	double		fog;
-
-	ft_draw_v_line(x, y1, y2, 0x22ffff, wolf);
-	return;
-	if (y1 == 0)
-	{
-		i = -1;
-		while (++i < y2)
-		{
-			fog = 1 - ((double)i / (wolf->win_h / 2));
-			fog = (fog < 0) ? 0 : fog;
-			ft_put_pixel(x, i,
-				ft_get_color(20 * fog, 255 * fog, 255 * fog), wolf);
-		}
-	}
-	else
-	{
-		i = y1 - 1;
-		while (++i < y2)
-		{
-			fog = ((double)(i - (wolf->win_h / 2)) / (wolf->win_h / 2));
-			fog = (fog > 1) ? 1 : fog;
-			ft_put_pixel(x, i,
-				ft_get_color(255 * fog, 200 * fog, 90 * fog), wolf);
-		}
-	}
-}*/
-
 void			ft_clear_win(t_wolf *wolf)
 {
 	int			i;
@@ -94,10 +63,10 @@ void			ft_clear_win(t_wolf *wolf)
 	Uint32		*target;
 
 	i = -1;
-	while (++i < wolf->win_h)
+	while (++i < wolf->plan_h)
 	{
 		j = -1;
-		while (++j < wolf->win_w)
+		while (++j < wolf->plan_w)
 		{
 			target = (Uint32*)((Uint8*)wolf->render->pixels + i *
 				wolf->render->pitch + j * sizeof(*target));

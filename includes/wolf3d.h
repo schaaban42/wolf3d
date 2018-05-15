@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 17:24:15 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/11 16:47:18 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/15 20:06:32 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@
 # include <math.h>
 # include <fcntl.h>
 
-# define WALL_SIZE			64
-# define TEX_SIZE			64
-# define MAX_TEX			9
+# define WALL_SIZE			16
+# define MAX_TEX			12
 # define W_PI				(double)3.14159265358979
 
 # define DELTA				wolf->delta
@@ -45,11 +44,14 @@
 # define O_WEST				2
 # define O_SOUTH			3
 
-# define MM_SIZE			100
-# define MM_POS_X			wolf->win_w - MM_SIZE - 20
+# define MM_SIZE			80
+# define MM_POS_X			wolf->plan_w - MM_SIZE - 20
 # define MM_POS_Y			20
 # define MM_O_X				MM_POS_X + (MM_SIZE / 2)
 # define MM_O_Y				MM_POS_Y + (MM_SIZE / 2)
+
+# define SKY_W				3600
+# define SKY_H				200
 
 typedef struct		s_player
 {
@@ -79,18 +81,19 @@ typedef struct		s_wolf
 	Uint8			*keys;
 	int				fd;
 	int				exit;
-	int				win_w;
-	int				win_h;
+	int				plan_w;
+	int				plan_h;
 	double			time_step;
 	double			delta;
 	double			frequency;
 	double			fov;
 	double			sub_angle;
-	Uint32			tex[MAX_TEX][TEX_SIZE][TEX_SIZE];
+	Uint32			***tex;
 	t_ray			**rays;
 	int				**map;
 	int				map_w;
 	int				map_h;
+	int				night;
 	t_player		*player;
 }					t_wolf;
 
@@ -115,6 +118,7 @@ void			mm_draw_rect(int p[4], Uint32 color, t_wolf *wolf);
 void			mm_draw_line(int cc[6], t_wolf *wolf);
 
 int				ft_get_color(int r, int g, int b);
+int				ft_get_color_fog(int color, int fog);
 int				color_gradient(int cs, int ce, double value);
 
 void			ft_fill_tex(int index, SDL_Surface *sf, t_wolf *wolf);

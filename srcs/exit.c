@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 16:57:35 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/09 22:01:35 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/15 18:02:24 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	ft_exit(t_wolf *wolf)
 {
+	int		i;
+
+	i = -1;
 	if (wolf->render)
 		SDL_FreeSurface(wolf->render);
 	if (wolf->win)
@@ -22,6 +25,12 @@ void	ft_exit(t_wolf *wolf)
 		ft_a2ddel((void***)&wolf->rays);
 	if (wolf->map)
 		ft_a2ddel((void***)&wolf->map);
+	if (wolf->tex)
+	{
+		while (++i < MAX_TEX)
+			ft_a2ddel((void***)&wolf->tex[i]);
+		ft_memdel((void**)&wolf->tex);
+	}
 	SDL_Quit();
 	exit(0);
 }

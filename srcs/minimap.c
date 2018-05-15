@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/03 17:47:50 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/10 02:31:06 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/11 23:40:42 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void			draw_minimap(t_wolf *wolf)
 	{
 		for (int j = (int)player_mx - (MM_SIZE / wall / 2) - 1; j <= (int)player_mx + (MM_SIZE / wall / 2) + 1; j++)
 		{
-			if (i >= 0 && j >= 0 && i < wolf->map_w && j < wolf->map_h)
+			if (i >= 0 && j >= 0 && i < wolf->map_h && j < wolf->map_w)
 			{
 				if (wolf->map[i][j])
 				{

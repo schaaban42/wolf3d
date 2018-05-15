@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 17:43:23 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/11 16:15:47 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/12 16:58:38 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void			ft_update(t_wolf *wolf)
 	while (wolf->rays[++i])
 	{
 		wolf->rays[i]->angle = wolf->player->angle + atan(((i -
-			((double)wolf->win_w / 2)) / wolf->player->dist_pp)) * 180.0 / W_PI;
+			((double)wolf->plan_w / 2)) / wolf->player->dist_pp)) * 180.0 / W_PI;
 		wolf->rays[i]->angle -= (wolf->rays[i]->angle >= 360.0) ? 360.0 : 0.0;
 		wolf->rays[i]->angle += (wolf->rays[i]->angle < 0.0) ? 360.0 : 0.0;
 		ray_cast(wolf->player->pos, wolf->rays[i], wolf);

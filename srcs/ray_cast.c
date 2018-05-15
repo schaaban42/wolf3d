@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/27 14:02:10 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/11 14:21:38 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/12 16:32:54 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,4 @@ void			ray_cast(double pos[2], t_ray *ray, t_wolf *wolf)
 		ray->map_v[2] = ray->map_v[1];
 		ray->wall_x = (int)ray->pos[1] % WALL_SIZE;
 	}
-	ray->wall_x = ((double)ray->wall_x / (double)WALL_SIZE) * (double)TEX_SIZE;
 }

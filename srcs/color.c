@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 22:19:17 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/09 16:30:43 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/14 18:20:32 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@ int				ft_get_color(int r, int g, int b)
 
 	color = (r << 16) | (g << 8) | (b);
 	return (color | 0xff000000);
+}
+
+int				ft_get_color_fog(int color, int fog)
+{
+	return (
+		(color & 0xff0000) * fog |
+		(color & 0xff00) * fog |
+		(color & 0xff) * fog);
 }
 
 int				color_gradient(int cs, int ce, double value)
