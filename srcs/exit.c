@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 16:57:35 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/15 18:02:24 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/22 15:43:53 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	error_handler(int error, t_wolf *wolf)
 		ft_putendl_fd("error: could not close file", 2);
 	else if (error == W_ERROR_RAY)
 		ft_putendl_fd("error: ray out of map", 2);
+	else if (error == W_ERROR_TEX)
+		ft_putendl_fd("error: textures are not valid", 2);
 	else if (error == W_ERROR_TEX_S)
 		ft_putendl_fd("error: textures size must be 64x64", 2);
 	else

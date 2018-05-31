@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/09 16:14:28 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/15 18:03:03 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/18 02:24:01 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void		fill_first_tex(int index, SDL_Surface *sf, t_wolf *wolf)
 {
 	int		i;
 	int		j;
+	Uint8	*p;
 
 	if (!(wolf->tex[index] =
 		(Uint32**)malloc(sizeof(Uint32*) * (WALL_SIZE + 1))))
@@ -29,10 +30,9 @@ static void		fill_first_tex(int index, SDL_Surface *sf, t_wolf *wolf)
 		j = -1;
 		while (++j < WALL_SIZE)
 		{
-			wolf->tex[index][i][j] = (Uint32)*((Uint32*)(sf->pixels + i *
-				sf->pitch + j * sf->format->BytesPerPixel));
-			//wolf->tex[index][i][j] = ((wolf->tex[index][i][j] & 0xff) << 24) |
-			//	((wolf->tex[index][i][j] & 0xffffff00) >> 8);
+			p = ((Uint8*)sf->pixels + i *
+				sf->pitch + j * sf->format->BytesPerPixel);
+			wolf->tex[index][i][j] = (p[0]) | (p[1] << 8) | (p[2] << 16);
 		}
 	}
 	wolf->tex[index][i] = NULL;
@@ -42,6 +42,7 @@ static void		fill_sky_tex(int index, SDL_Surface *sf, t_wolf *wolf)
 {
 	int		i;
 	int		j;
+	Uint8	*p;
 
 	if (!(wolf->tex[index] =
 		(Uint32**)malloc(sizeof(Uint32*) * (SKY_H + 1))))
@@ -55,8 +56,9 @@ static void		fill_sky_tex(int index, SDL_Surface *sf, t_wolf *wolf)
 		j = -1;
 		while (++j < SKY_W)
 		{
-			wolf->tex[index][i][j] = (Uint32)*((Uint32*)(sf->pixels + i *
-				sf->pitch + j * sf->format->BytesPerPixel));
+			p = ((Uint8*)sf->pixels + i *
+				sf->pitch + j * sf->format->BytesPerPixel);
+			wolf->tex[index][i][j] = (p[0]) | (p[1] << 8) | (p[2] << 16);
 			//wolf->tex[index][i][j] = ((wolf->tex[index][i][j] & 0xff) << 24) |
 			//	((wolf->tex[index][i][j] & 0xffffff00) >> 8);
 		}

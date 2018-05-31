@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 17:24:15 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/15 20:06:32 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/31 18:51:16 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,14 @@
 
 # define WALL_SIZE			16
 # define MAX_TEX			12
-# define W_PI				(double)3.14159265358979
+# define W_PI				(double)3.14159265358979323846264338327950288
+# define W_R0				0.0
+# define W_R60				W_PI / 3
+# define W_R90				W_PI * 0.5
+# define W_R150				(5.0 * W_PI) / 6
+# define W_R180				W_PI
+# define W_R270				(3 * W_PI) * 0.5
+# define W_R360				W_PI * 2.0		
 
 # define DELTA				wolf->delta
 
@@ -35,6 +42,7 @@
 # define W_ERROR_ARGS		5
 # define W_ERROR_RAY		6
 # define W_ERROR_TEX_S		7
+# define W_ERROR_TEX		8
 
 # define W_HORIZONTAL		0
 # define W_VERTICAL			1
@@ -50,7 +58,7 @@
 # define MM_O_X				MM_POS_X + (MM_SIZE / 2)
 # define MM_O_Y				MM_POS_Y + (MM_SIZE / 2)
 
-# define SKY_W				3600
+# define SKY_W				600
 # define SKY_H				200
 
 typedef struct		s_player
@@ -71,6 +79,10 @@ typedef struct		s_ray
 	int				wall_x;
 	int				map_v[3];
 	int				side;
+	double			w_start;
+	double			w_size;
+	double			w_end;
+	double			fog;
 }					t_ray;
 
 typedef struct		s_wolf
@@ -87,7 +99,6 @@ typedef struct		s_wolf
 	double			delta;
 	double			frequency;
 	double			fov;
-	double			sub_angle;
 	Uint32			***tex;
 	t_ray			**rays;
 	int				**map;
@@ -121,8 +132,12 @@ int				ft_get_color(int r, int g, int b);
 int				ft_get_color_fog(int color, int fog);
 int				color_gradient(int cs, int ce, double value);
 
+Uint32			**ft_read_ppm(int fd, t_wolf *wolf);
+
 void			ft_fill_tex(int index, SDL_Surface *sf, t_wolf *wolf);
 
+int				a_is_left(double angle);
+int				a_is_up(double angle);
 int				get_closer_h(double pos[2], t_ray *ray);
 int				get_closer_v(double pos[2], t_ray *ray);
 double			ft_raylen(double *r, double *p);

@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 14:47:51 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/14 18:13:32 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/05/23 17:52:47 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void			ft_clear_win(t_wolf *wolf)
 		j = -1;
 		while (++j < wolf->plan_w)
 		{
-			target = (Uint32*)((Uint8*)wolf->render->pixels + i *
+			target = (Uint32*)(wolf->render->pixels + i *
 				wolf->render->pitch + j * sizeof(*target));
 			*target = (Uint32)0xff000000;
 		}
