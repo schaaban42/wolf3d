@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/27 14:02:10 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/16 03:54:56 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/06/01 14:55:15 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ static void		ray_wall_h(int hit[2], t_ray *ray, t_wolf *wolf)
 			ray->a_h[1] < 0 || ray->a_h[1] >= (wolf->map_h * WALL_SIZE))
 		{
 			hit[0] = 2;
-			break;
+			break ;
 		}
 		if ((ray->map_v[0] = wolf->map[(int)(ray->a_h[1] / WALL_SIZE)]
 			[(int)(ray->a_h[0] / WALL_SIZE)]) != 0)
 		{
 			hit[0] = 1;
-			break;
+			break ;
 		}
 		ray->a_h[0] = ray->a_h[0] + xa;
 		ray->a_h[1] = ray->a_h[1] + ya;
@@ -52,13 +52,13 @@ static void		ray_wall_v(int hit[2], t_ray *ray, t_wolf *wolf)
 			ray->a_v[1] < 0 || ray->a_v[1] >= (wolf->map_h * WALL_SIZE))
 		{
 			hit[1] = 2;
-			break;
+			break ;
 		}
 		if ((ray->map_v[1] = wolf->map[(int)(ray->a_v[1] / WALL_SIZE)]
 			[(int)(ray->a_v[0] / WALL_SIZE)]) != 0)
 		{
 			hit[1] = 1;
-			break;
+			break ;
 		}
 		ray->a_v[0] = ray->a_v[0] + xa;
 		ray->a_v[1] = ray->a_v[1] + ya;
@@ -70,7 +70,7 @@ static int		ray_return(int hit[2], t_ray *ray, t_wolf *wolf)
 {
 	if (hit[0] == 1 && hit[1] == 1)
 	{
-		if (ft_raylen(ray->a_h, wolf->player->pos) < 
+		if (ft_raylen(ray->a_h, wolf->player->pos) <
 			ft_raylen(ray->a_v, wolf->player->pos))
 		{
 			ray->side = (a_is_up(ray->angle)) ? O_NORTH : O_SOUTH;

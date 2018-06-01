@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/03 17:47:50 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/11 23:40:42 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/06/01 19:14:28 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void			draw_minimap(t_wolf *wolf)
 	wall = 8;
 	bg[0] = MM_POS_X - 3;
 	bg[1] = MM_POS_Y - 3;
-	bg[2] = MM_SIZE + 6;
-	bg[3] = MM_SIZE + 6;
+	bg[2] = MM_SIZE_X + 6;
+	bg[3] = MM_SIZE_Y + 6;
 	ft_draw_rect(bg, 0x2222ff, wolf);
 	bg[0] = MM_POS_X;
 	bg[1] = MM_POS_Y;
-	bg[2] = MM_SIZE;
-	bg[3] = MM_SIZE;
+	bg[2] = MM_SIZE_X;
+	bg[3] = MM_SIZE_Y;
 	mm_draw_rect(bg, 0, wolf);
 	int		i;
 
@@ -48,9 +48,9 @@ void			draw_minimap(t_wolf *wolf)
 
 	player_mx = (wolf->player->pos[0] / WALL_SIZE);
 	player_my = (wolf->player->pos[1] / WALL_SIZE);
-	for (int i = (int)player_my - (MM_SIZE / wall / 2) - 1; i <= (int)player_my + (MM_SIZE / wall / 2) + 1; i++)
+	for (int i = (int)player_my - (MM_SIZE_Y / wall / 2) - 1; i <= (int)player_my + (MM_SIZE_Y / wall / 2) + 1; i++)
 	{
-		for (int j = (int)player_mx - (MM_SIZE / wall / 2) - 1; j <= (int)player_mx + (MM_SIZE / wall / 2) + 1; j++)
+		for (int j = (int)player_mx - (MM_SIZE_X / wall / 2) - 1; j <= (int)player_mx + (MM_SIZE_X / wall / 2) + 1; j++)
 		{
 			if (i >= 0 && j >= 0 && i < wolf->map_h && j < wolf->map_w)
 			{

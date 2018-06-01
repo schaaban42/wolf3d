@@ -6,28 +6,27 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 17:43:23 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/31 18:49:32 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/06/01 20:25:41 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-void			ft_update(t_wolf *wolf)
+static void		update_rays(t_wolf *wolf)
 {
-	int			i;
+	int		i;
 
-	wolf->player->angle -= (wolf->player->angle >= W_R360) ? W_R360 : W_R0;
-	wolf->player->angle += (wolf->player->angle < W_R0) ? W_R360 : W_R0;
 	i = -1;
 	while (wolf->rays[++i])
 	{
 		wolf->rays[i]->angle = wolf->player->angle + atan(((i -
 			((double)wolf->plan_w / 2)) / wolf->player->dist_pp));
-		wolf->rays[i]->angle -= (wolf->rays[i]->angle >= W_R360) ? W_R360 : W_R0;
+		wolf->rays[i]->angle -=
+			(wolf->rays[i]->angle >= W_R360) ? W_R360 : W_R0;
 		wolf->rays[i]->angle += (wolf->rays[i]->angle < W_R0) ? W_R360 : W_R0;
 		ray_cast(wolf->player->pos, wolf->rays[i], wolf);
-		wolf->rays[i]->dist = ft_raylen(wolf->rays[i]->pos, wolf->player->pos) *
-			cos(wolf->player->angle - wolf->rays[i]->angle);
+		wolf->rays[i]->dist = ft_raylen(wolf->rays[i]->pos, wolf->player->pos)
+			* cos(wolf->player->angle - wolf->rays[i]->angle);
 		wolf->rays[i]->w_size = (double)WALL_SIZE /
 			(wolf->rays[i]->dist / wolf->player->dist_pp);
 		wolf->rays[i]->w_start = ((double)wolf->plan_h * 0.5) -
@@ -36,4 +35,37 @@ void			ft_update(t_wolf *wolf)
 			wolf->rays[i]->w_size) > wolf->plan_h) ? wolf->plan_h :
 			wolf->rays[i]->w_start + wolf->rays[i]->w_size;
 	}
+}
+
+static void		update_player(t_wolf *wolf)
+{
+	wolf->player->angle -= (wolf->player->angle >= W_R360) ? W_R360 : W_R0;
+	wolf->player->angle += (wolf->player->angle < W_R0) ? W_R360 : W_R0;
+	wolf->player->speed = (!wolf->player->run) ? P_BASE_SPEED : P_SPRINT_SPEED;
+	wolf->player->dist_pp = ((double)wolf->plan_w * 0.5) / tan(wolf->fov * 0.5);
+	if (wolf->map[(int)(wolf->player->pos[1] / (double)WALL_SIZE)]
+		[(int)((wolf->player->pos[0] + (wolf->player->mv[0] *
+		wolf->player->speed)) / (double)WALL_SIZE)] == 0)
+		wolf->player->pos[0] += (wolf->player->mv[0] * wolf->player->speed);
+	if (wolf->map[(int)((wolf->player->pos[1] +
+		(wolf->player->mv[1] * wolf->player->speed)) / (double)WALL_SIZE)]
+		[(int)(wolf->player->pos[0] / (double)WALL_SIZE)] == 0)
+		wolf->player->pos[1] += (wolf->player->mv[1] * wolf->player->speed);
+	wolf->player->mv[0] = 0;
+	wolf->player->mv[1] = 0;
+}
+
+void			ft_update(t_wolf *wolf)
+{
+	if (wolf->minimap_full)
+	{
+		wolf->minimap_size[0] = wolf->plan_w - 40;
+		wolf->minimap_size[1] = wolf->plan_h - 40;
+	}
+	else
+	{
+		wolf->minimap_size[0] = 120;
+		wolf->minimap_size[1] = 120;
+	}
+	update_rays(wolf);
 }

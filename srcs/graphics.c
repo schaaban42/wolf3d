@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 14:47:51 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/23 17:52:47 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/06/01 16:16:11 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void			ft_put_pixel(int x, int y, Uint32 c, t_wolf *wolf)
 	{
 		target = (Uint32*)(wolf->render->pixels + y *
 			wolf->render->pitch + x * wolf->render->format->BytesPerPixel);
-		*target = (Uint32)c | 0xff000000;
+		*target = (Uint32)c | (wolf->drunk ? 0x50000000 : 0xff000000);
 	}
 }
 

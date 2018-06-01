@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/07 22:20:11 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/09 16:31:01 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/06/01 19:14:48 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void			minimap_pixel(int x, int y, Uint32 color, t_wolf *wolf)
 {
-	if (x >= MM_POS_X && x < MM_POS_X + MM_SIZE &&
-		y >= MM_POS_Y && y < MM_POS_Y + MM_SIZE)
+	if (x >= MM_POS_X && x < MM_POS_X + MM_SIZE_X &&
+		y >= MM_POS_Y && y < MM_POS_Y + MM_SIZE_Y)
 		ft_put_pixel(x, y, color, wolf);
 }
 

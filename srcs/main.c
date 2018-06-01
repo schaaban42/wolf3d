@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 17:23:15 by schaaban          #+#    #+#             */
-/*   Updated: 2018/05/13 00:00:47 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/06/01 14:53:20 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int				main(int argc, char **argv)
 	wolf.map = NULL;
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 		error_handler(W_ERROR_SDL_INIT, &wolf);
+	SDL_SetRelativeMouseMode(SDL_TRUE);
 	init_file_read(argc, argv, &wolf);
 	init_values(&wolf);
 	wolf.win = SDL_CreateWindow("Wolf3D", 

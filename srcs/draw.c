@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 17:42:37 by schaaban          #+#    #+#             */
-/*   Updated: 2018/06/01 00:41:56 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/06/01 20:16:21 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ static void		draw_sky(int i, t_wolf *wolf)
 	int		y;
 	
 	x = (double)((double)((int)(wolf->rays[i]->angle * 10000) %
-		abs(W_R60 * 10000)) / (double)(W_R60 * 10000)) * SKY_W;
+		abs((int)(W_R60 * 10000))) / (double)(W_R60 * 10000)) * SKY_W;
 	y = -1;
 	while (++y < wolf->rays[i]->w_start)
 	{
-		color = wolf->tex[10 + wolf->night][y][x];
+		color = wolf->tex[10 + wolf->night][
+			(int)((double)y / (double)(wolf->plan_h / 2) * (double)SKY_H)][x];
 		ft_put_pixel(i, y, color, wolf);
 	}
 }
@@ -36,15 +37,15 @@ static void		draw_walls(int i, t_wolf *wolf)
 	wolf->rays[i]->fog = 1 - (wolf->rays[i]->dist / (double)(WALL_SIZE * 8));
 	wolf->rays[i]->fog = (wolf->rays[i]->fog < 0) ? 0 : wolf->rays[i]->fog;
 	wolf->rays[i]->fog = (wolf->night) ? wolf->rays[i]->fog : 1;
-	y = ((wolf->rays[i]->w_start < 0) ? -1 : wolf->rays[i]->w_start) - 1;
+	y = ((wolf->rays[i]->w_start < 0) ? -1 : (ceil(wolf->rays[i]->w_start) - 1));
 	while (++y < wolf->rays[i]->w_end)
 	{
 		color = wolf->tex
 			[wolf->rays[i]->map_v[2] - 1]
-			[abs((((double)y - wolf->rays[i]->w_start) /
-				wolf->rays[i]->w_size) * (double)WALL_SIZE)]
-			[abs(wolf->rays[i]->wall_x - ((wolf->rays[i]->side == O_SOUTH ||
-				wolf->rays[i]->side == O_EAST) ? (WALL_SIZE - 1) : 0))];
+			[abs((int)((fabs((double)y - wolf->rays[i]->w_start) /
+				wolf->rays[i]->w_size) * (double)WALL_SIZE))]
+			[abs((int)(wolf->rays[i]->wall_x - ((wolf->rays[i]->side == O_SOUTH
+				|| wolf->rays[i]->side == O_EAST) ? (WALL_SIZE - 1) : 0)))];
 		if (wolf->night)
 			color = color_gradient(0x0A090f, color, wolf->rays[i]->fog);
 		ft_put_pixel(i, y, color, wolf);
@@ -66,10 +67,10 @@ static void		draw_floor(int i, t_wolf *wolf)
 		dst = tan(W_R90 - nang) * ((double)WALL_SIZE * 0.5) /
 			cos(wolf->player->angle - wolf->rays[i]->angle);
 		color = wolf->tex[9]
-			[abs(wolf->player->pos[1] +
-				(sin(wolf->rays[i]->angle) * dst)) % WALL_SIZE]
-			[abs(wolf->player->pos[0] +
-				(cos(wolf->rays[i]->angle) * dst)) % WALL_SIZE];
+			[abs((int)(wolf->player->pos[1] +
+				(sin(wolf->rays[i]->angle) * dst))) % WALL_SIZE]
+			[abs((int)(wolf->player->pos[0] +
+				(cos(wolf->rays[i]->angle) * dst))) % WALL_SIZE];
 		if (wolf->night)
 		{
 			fog = 1 - (dst / (double)(WALL_SIZE * 8));
@@ -92,5 +93,5 @@ void			ft_draw(t_wolf *wolf)
 		draw_floor(i, wolf);
 		draw_walls(i, wolf);
 	}
-	draw_minimap(wolf);
+	(wolf->minimap) ? draw_minimap(wolf) : 0;
 }

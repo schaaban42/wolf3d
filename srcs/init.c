@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 16:53:07 by schaaban          #+#    #+#             */
-/*   Updated: 2018/06/01 00:45:12 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/06/01 20:18:41 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ static t_player	*init_player(t_wolf *wolf)
 		error_handler(W_ERROR_MALLOC, wolf);
 	p->pos[0] = (double)WALL_SIZE * 1.0 + (double)WALL_SIZE / 2;
 	p->pos[1] = (double)WALL_SIZE * 1.0 + (double)WALL_SIZE / 2;
+	p->mv[0] = 0;
+	p->mv[1] = 0;
 	p->angle = 0;
-	p->speed = 5 * WALL_SIZE;
+	p->speed = P_BASE_SPEED;
 	p->dist_pp = ((double)wolf->plan_w * 0.5) / tan(wolf->fov * 0.5);
 	return (p);
 }
@@ -80,11 +82,15 @@ void			init_values(t_wolf *wolf)
 
 	i = -1;
 	wolf->exit = 0;
-	wolf->plan_w = 600;
-	wolf->plan_h = 400;
-	wolf->fov = W_R60;
+	wolf->plan_w = 700;
+	wolf->plan_h = 480;
+	wolf->fov = 60 * W_PI / 180;
 	wolf->frequency = 1000.0;
 	wolf->night = 0;
+	wolf->minimap = 1;
+	wolf->minimap_full = 0;
+	wolf->minimap_size[0] = 120;
+	wolf->minimap_size[1] = 120;
 	wolf->time_step = 1000.0 / (double)wolf->frequency;
 	init_tex(wolf);
 	wolf->player = init_player(wolf);
