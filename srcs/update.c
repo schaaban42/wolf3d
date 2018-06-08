@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 17:43:23 by schaaban          #+#    #+#             */
-/*   Updated: 2018/06/01 20:25:41 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/06/08 01:48:29 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ static void		update_player(t_wolf *wolf)
 	wolf->player->angle -= (wolf->player->angle >= W_R360) ? W_R360 : W_R0;
 	wolf->player->angle += (wolf->player->angle < W_R0) ? W_R360 : W_R0;
 	wolf->player->speed = (!wolf->player->run) ? P_BASE_SPEED : P_SPRINT_SPEED;
+	if (wolf->player->run)
+		wolf->fov = (wolf->fov + (1 * DELTA) > P_SPRINT_FOV) ?
+			P_SPRINT_FOV : wolf->fov + (1 * DELTA);
+	else
+		wolf->fov = (wolf->fov - (1 * DELTA) < P_BASE_FOV) ?
+			P_BASE_FOV : wolf->fov - (1 * DELTA);
 	wolf->player->dist_pp = ((double)wolf->plan_w * 0.5) / tan(wolf->fov * 0.5);
 	if (wolf->map[(int)(wolf->player->pos[1] / (double)WALL_SIZE)]
 		[(int)((wolf->player->pos[0] + (wolf->player->mv[0] *
@@ -67,5 +73,8 @@ void			ft_update(t_wolf *wolf)
 		wolf->minimap_size[0] = 120;
 		wolf->minimap_size[1] = 120;
 	}
+	wolf->mm_wall_size = (wolf->mm_wall_size > 64) ? 64 : wolf->mm_wall_size;
+	wolf->mm_wall_size = (wolf->mm_wall_size < 2) ? 2 : wolf->mm_wall_size;
+	update_player(wolf);
 	update_rays(wolf);
 }

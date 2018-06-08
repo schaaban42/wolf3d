@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/16 16:53:07 by schaaban          #+#    #+#             */
-/*   Updated: 2018/06/01 20:18:41 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/06/05 16:52:19 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static void		init_tex(t_wolf *wolf)
 {
 	int				i;
 	char			*str;
+	int				fd;
+	Uint32			**tab;
 
 	i = -1;
 	if (!(str = ft_strdup("./tex/x.ppm")))
@@ -41,12 +43,12 @@ static void		init_tex(t_wolf *wolf)
 	while (++i < MAX_TEX)
 	{
 		str[6] = i + 'a';
-		int fd = open(str, O_RDONLY);
-		Uint32 **test = ft_read_ppm(fd, wolf);
-		wolf->tex[i] = test;
+		fd = open(str, O_RDONLY);
+		wolf->tex[i + 1] = NULL;
+		tab = ft_read_ppm(fd, wolf);
+		wolf->tex[i] = tab;
 	}
 	ft_strdel(&str);
-	wolf->tex[i] = NULL;
 }
 
 void			game_loop(t_wolf *wolf)
@@ -91,6 +93,7 @@ void			init_values(t_wolf *wolf)
 	wolf->minimap_full = 0;
 	wolf->minimap_size[0] = 120;
 	wolf->minimap_size[1] = 120;
+	wolf->mm_wall_size = 8;
 	wolf->time_step = 1000.0 / (double)wolf->frequency;
 	init_tex(wolf);
 	wolf->player = init_player(wolf);

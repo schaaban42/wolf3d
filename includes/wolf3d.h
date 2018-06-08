@@ -6,7 +6,7 @@
 /*   By: schaaban <schaaban@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/03 17:24:15 by schaaban          #+#    #+#             */
-/*   Updated: 2018/06/01 20:29:42 by schaaban         ###   ########.fr       */
+/*   Updated: 2018/06/08 01:50:54 by schaaban         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@
 
 # define P_BASE_SPEED		4 * WALL_SIZE
 # define P_SPRINT_SPEED		7 * WALL_SIZE
+# define P_BASE_FOV			W_R60
+# define P_SPRINT_FOV		P_BASE_FOV * 1.05
 
 typedef struct		s_player
 {
@@ -116,6 +118,7 @@ typedef struct		s_wolf
 	int				minimap;
 	int				minimap_full;
 	int				minimap_size[2];
+	int				mm_wall_size;
 	t_player		*player;
 }					t_wolf;
 
